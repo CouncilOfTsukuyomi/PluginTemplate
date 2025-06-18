@@ -1,0 +1,26 @@
+{
+  "version": 2,
+  "dgSpecHash": "XLhjy78TwI4=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Dylan\\.dev\\CouncilOfTsukuyomi\\PluginTemplate\\SamplePlugin\\SamplePlugin.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Dylan\\.nuget\\packages\\dynamicdata\\9.3.2\\dynamicdata.9.3.2.nupkg.sha512",
+    "C:\\Users\\Dylan\\.nuget\\packages\\htmlagilitypack\\1.12.1\\htmlagilitypack.1.12.1.nupkg.sha512",
+    "C:\\Users\\Dylan\\.nuget\\packages\\messagepack\\3.1.4\\messagepack.3.1.4.nupkg.sha512",
+    "C:\\Users\\Dylan\\.nuget\\packages\\messagepack.annotations\\3.1.4\\messagepack.annotations.3.1.4.nupkg.sha512",
+    "C:\\Users\\Dylan\\.nuget\\packages\\messagepackanalyzer\\3.1.4\\messagepackanalyzer.3.1.4.nupkg.sha512",
+    "C:\\Users\\Dylan\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\10.0.0-preview.5.25277.114\\microsoft.extensions.dependencyinjection.abstractions.10.0.0-preview.5.25277.114.nupkg.sha512",
+    "C:\\Users\\Dylan\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\10.0.0-preview.5.25277.114\\microsoft.extensions.logging.abstractions.10.0.0-preview.5.25277.114.nupkg.sha512",
+    "C:\\Users\\Dylan\\.nuget\\packages\\microsoft.net.stringtools\\17.11.4\\microsoft.net.stringtools.17.11.4.nupkg.sha512",
+    "C:\\Users\\Dylan\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
+    "C:\\Users\\Dylan\\.nuget\\packages\\reactiveui\\20.3.1\\reactiveui.20.3.1.nupkg.sha512",
+    "C:\\Users\\Dylan\\.nuget\\packages\\splat\\15.3.1\\splat.15.3.1.nupkg.sha512",
+    "C:\\Users\\Dylan\\.nuget\\packages\\system.componentmodel.annotations\\5.0.0\\system.componentmodel.annotations.5.0.0.nupkg.sha512",
+    "C:\\Users\\Dylan\\.nuget\\packages\\system.diagnostics.diagnosticsource\\10.0.0-preview.5.25277.114\\system.diagnostics.diagnosticsource.10.0.0-preview.5.25277.114.nupkg.sha512",
+    "C:\\Users\\Dylan\\.nuget\\packages\\system.io.pipelines\\10.0.0-preview.5.25277.114\\system.io.pipelines.10.0.0-preview.5.25277.114.nupkg.sha512",
+    "C:\\Users\\Dylan\\.nuget\\packages\\system.reactive\\6.0.1\\system.reactive.6.0.1.nupkg.sha512",
+    "C:\\Users\\Dylan\\.nuget\\packages\\system.text.encodings.web\\10.0.0-preview.5.25277.114\\system.text.encodings.web.10.0.0-preview.5.25277.114.nupkg.sha512",
+    "C:\\Users\\Dylan\\.nuget\\packages\\system.text.json\\10.0.0-preview.5.25277.114\\system.text.json.10.0.0-preview.5.25277.114.nupkg.sha512"
+  ],
+  "logs": []
+}
