@@ -1,0 +1,66 @@
+name: Release
+
+on:
+    push:
+        tags:
+            - 'v*'
+
+jobs:
+    release:
+        runs-on: ubuntu-latest
+        
+        steps:
+            - name: Generate GitHub App Token
+              uses: actions/create-github-app-token@v1
+              id: app-token
+              with:
+                  app-id: ${{ vars.APP_ID }}
+                  private-key: ${{ secrets.APP_PRIVATE_KEY }}
+
+            - name: "⏬ Check out repository code"
+              uses: actions/checkout@v4
+              with:
+                  submodules: recursive
+                  token: ${{ steps.app-token.outputs.token }}
+
+            - name: Setup .NET
+              uses: actions/setup-dotnet@v4
+              with:
+                  dotnet-version: '9.0.x'
+
+            - name: Restore dependencies
+              run: dotnet restore
+
+            - name: Build
+              run: dotnet build --no-restore --configuration Release
+
+            - name: Test
+              run: dotnet test --no-build --configuration Release --verbosity normal
+
+            - name: Package Plugin
+              run: |
+                  mkdir -p plugin-package
+                  cp SamplePlugin/bin/Release/net9.0/* plugin-package/
+                  cd plugin-package
+                  zip -r ../SamplePlugin-${{ github.ref_name }}.zip .
+
+            - name: Create Release
+              id: create_release
+              uses: actions/create-release@v1
+              env:
+                  GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
+              with:
+                  tag_name: ${{ github.ref_name }}
+                  release_name: Sample Plugin ${{ github.ref_name }}
+                  draft: false
+                  prerelease: false
+
+            - name: Upload Release Asset
+              uses: actions/upload-release-asset@v1
+              env:
+                  GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
+              with:
+                  upload_url: ${{ steps.create_release.outputs.upload_url }}
+                  asset_path: ./SamplePlugin-${{ github.ref_name }}.zip
+                  asset_name: SamplePlugin-${{ github.ref_name }}.zip
+                  asset_content_type: application/zip
