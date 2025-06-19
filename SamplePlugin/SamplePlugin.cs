@@ -115,12 +115,7 @@ public class SamplePlugin : BaseModPlugin
                 ImageUrl = "https://via.placeholder.com/300x200",
                 ModUrl = "https://example.com/mod/sample",
                 DownloadUrl = await GetModDownloadLinkAsync("https://example.com/mod/sample") ?? "",
-                Gender = ModGender.Unisex,
                 PluginSource = PluginId,
-                AdditionalProperties = new Dictionary<string, object>
-                {
-                    ["SampleProperty"] = "Sample Value"
-                }
             });
 
             Logger.LogInformation("Fetched {Count} mods from source", mods.Count);
