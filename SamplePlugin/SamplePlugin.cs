@@ -1,160 +1,97 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
-using PluginManager.Core.Enums;
+using Microsoft.Extensions.Logging.Abstractions;
+using PluginManager.Core.Interfaces;
 using PluginManager.Core.Models;
 using PluginManager.Core.Plugins;
 
 namespace SamplePlugin;
-public class SamplePlugin : BaseModPlugin
+
+public class SamplePlugin : BaseModPlugin, IModPlugin
 {
-    private readonly HttpClient _httpClient;
-    
-    // Configuration values
-    private string _apiKey = string.Empty;
-    private string _baseUrl = string.Empty;
-
-    #region Plugin Metadata - CUSTOMIZE THESE VALUES
-    
-    public override string PluginId => "your-plugin-id";
+    public override string PluginId => "sample-plugin";
     public override string DisplayName => "Sample Plugin";
-    public override string Description => "Description of what your plugin does"; 
+    public override string Description => "A simple sample plugin demonstrating the plugin architecture";
     public override string Version => "1.0.0";
-    public override string Author => "Your Name";
-    
-    #endregion
+    public override string Author => "Plugin Developer";
 
-    public SamplePlugin(ILogger<SamplePlugin> logger, HttpClient httpClient) 
-        : base(logger)
+    // Simple parameterless constructor for isolated loader
+    public SamplePlugin() : base(NullLogger.Instance)
     {
-        _httpClient = httpClient;
+    }
+
+    // Constructor with logger for dependency injection
+    public SamplePlugin(ILogger logger) : base(logger, TimeSpan.FromMinutes(30))
+    {
     }
 
     public override async Task InitializeAsync(Dictionary<string, object> configuration)
     {
-        // Handle plugin configuration
-        // API key is not needed, just an example
-        if (configuration.TryGetValue("ApiKey", out var apiKey) && apiKey is string keyStr)
+        Logger.LogInformation("Initializing Sample plugin");
+
+        // Example configuration loading
+        if (configuration.TryGetValue("SampleSetting", out var sampleValue))
         {
-            _apiKey = keyStr;
-            _httpClient.DefaultRequestHeaders.Authorization = 
-                new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", _apiKey);
+            Logger.LogInformation($"Sample setting loaded: {sampleValue}");
         }
 
-        if (configuration.TryGetValue("BaseUrl", out var baseUrl) && baseUrl is string urlStr)
-        {
-            _baseUrl = urlStr;
-        }
-
-        Logger.LogInformation("Plugin initialized - BaseUrl: {BaseUrl}, HasApiKey: {HasKey}", 
-            _baseUrl, !string.IsNullOrEmpty(_apiKey));
-
-        // TODO: Add any additional initialization logic here
+        Logger.LogInformation("Sample plugin initialized successfully");
     }
 
     public override async Task<List<PluginMod>> GetRecentModsAsync()
     {
-        // Handle caching
-        var configHash = GetConfigurationHash(new Dictionary<string, object> 
-        { 
-            ["ApiKey"] = _apiKey,
-            ["BaseUrl"] = _baseUrl 
-        });
-        InvalidateCacheOnConfigChange(configHash);
+        Logger.LogDebug("Getting sample mods");
 
-        var cachedData = LoadCacheFromFile();
-        if (cachedData != null && cachedData.ExpirationTime > DateTimeOffset.Now)
+        // Return some sample mod data for demonstration
+        var sampleMods = new List<PluginMod>
         {
-            Logger.LogDebug("Using cached data, expires: {ExpirationTime}", cachedData.ExpirationTime);
-            return cachedData.Mods;
-        }
-
-        Logger.LogInformation("Fetching fresh mod data from source...");
-
-        // Fetch mods from your source
-        var mods = await FetchModsFromSource();
-
-        // Cache the results
-        var cacheData = new PluginCacheData
-        {
-            Mods = mods,
-            ExpirationTime = DateTimeOffset.Now.Add(CacheDuration),
-            PluginId = PluginId
+            new PluginMod
+            {
+                Name = "Sample Mod 1",
+                Publisher = "Sample Author",
+                ImageUrl = "https://example.com/sample1.jpg",
+                ModUrl = "https://example.com/mod1",
+                DownloadUrl = "https://example.com/download1",
+                PluginSource = PluginId,
+                UploadDate = DateTime.Now.AddDays(-1)
+            },
+            new PluginMod
+            {
+                Name = "Sample Mod 2",
+                Publisher = "Another Author",
+                ImageUrl = "https://example.com/sample2.jpg",
+                ModUrl = "https://example.com/mod2",
+                DownloadUrl = "https://example.com/download2",
+                PluginSource = PluginId,
+                UploadDate = DateTime.Now.AddDays(-1)
+            }
         };
 
-        SaveCacheToFile(cacheData);
-        return mods;
-    }
-
-    private async Task<List<PluginMod>> FetchModsFromSource()
-    {
-        var mods = new List<PluginMod>();
-
-        try
-        {
-            // TODO: Replace this section with your actual mod fetching logic
-            
-            // Example API call:
-            // var response = await _httpClient.GetStringAsync($"{_baseUrl}/api/recent-mods");
-            // var data = JsonConvert.DeserializeObject<YourApiResponse>(response);
-            
-            // Example web scraping:
-            // var html = await _httpClient.GetStringAsync($"{_baseUrl}/recent-mods");
-            // var doc = new HtmlDocument();
-            // doc.LoadHtml(html);
-            // var modNodes = doc.DocumentNode.SelectNodes("//div[@class='mod-item']");
-
-            // For now, return sample data
-            mods.Add(new PluginMod
-            {
-                Name = NormalizeModName("Sample Mod Name"),
-                Publisher = "Sample Author",
-                Type = "Equipment",
-                ImageUrl = "https://via.placeholder.com/300x200",
-                ModUrl = "https://example.com/mod/sample",
-                DownloadUrl = await GetModDownloadLinkAsync("https://example.com/mod/sample") ?? "",
-                PluginSource = PluginId,
-            });
-
-            Logger.LogInformation("Fetched {Count} mods from source", mods.Count);
-        }
-        catch (Exception ex)
-        {
-            Logger.LogError(ex, "Failed to fetch mods from source");
-        }
-
-        return mods;
+        Logger.LogInformation($"Retrieved {sampleMods.Count} sample mods");
+        return sampleMods;
     }
 
     protected override async Task<string?> GetModDownloadLinkAsync(string modUrl)
     {
-        try
-        {
-            // TODO: Implement your download link extraction logic
-            
-            // Example: Parse the mod page to find download link
-            // var html = await _httpClient.GetStringAsync(modUrl);
-            // var doc = new HtmlDocument();
-            // doc.LoadHtml(html);
-            // var downloadNode = doc.DocumentNode.SelectSingleNode("//a[contains(@class, 'download-link')]");
-            // return downloadNode?.GetAttributeValue("href", null);
-
-            // For now, return placeholder
-            return "https://example.com/download/sample-mod.zip";
-        }
-        catch (Exception ex)
-        {
-            Logger.LogError(ex, "Failed to get download link for {ModUrl}", modUrl);
-            return null;
-        }
+        // Simple implementation that just returns the mod URL as download URL
+        // In a real plugin, this would parse the mod page to extract the actual download link
+        Logger.LogDebug($"Getting download link for: {modUrl}");
+        
+        // Simulate some async work
+        await Task.Delay(100);
+        
+        return modUrl + "/download";
     }
 
-    public override async ValueTask DisposeAsync()
+    protected override async Task OnDisposingAsync()
     {
-        // TODO: Add any cleanup logic here
-        _httpClient?.Dispose();
-        await base.DisposeAsync();
+        Logger.LogInformation("Cleaning up Sample plugin resources...");
+        
+        // Add any custom cleanup logic here
+        // For example: dispose HTTP clients, close file handles, etc.
+        
+        Logger.LogInformation("Sample plugin resources cleaned up successfully");
     }
 }

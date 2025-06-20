@@ -7,6 +7,13 @@
         <OutputType>Library</OutputType>
         <AssemblyName>SamplePlugin</AssemblyName>
         <RootNamespace>SamplePlugin</RootNamespace>
+        <AssemblyTitle>Sample Plugin</AssemblyTitle>
+        <AssemblyDescription>Sample Plugin For Atomos</AssemblyDescription>
+        <AssemblyCompany>Council of Tsukuyomi</AssemblyCompany>
+        <AssemblyProduct>PluginManager Sample Plugin</AssemblyProduct>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        <FileVersion>1.0.0.0</FileVersion>
+        <InformationalVersion>1.0.0</InformationalVersion>
     </PropertyGroup>
 
     <ItemGroup>
@@ -14,6 +21,12 @@
         <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
         <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.0-preview.5.25277.114" />
         <PackageReference Include="MessagePack" Version="3.1.4" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Include="plugin.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
 
     <ItemGroup>

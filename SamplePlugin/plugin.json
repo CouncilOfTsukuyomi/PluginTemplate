@@ -1,15 +1,15 @@
 {
   "pluginId": "sample-plugin",
   "displayName": "Sample Plugin",
-  "description": "A sample plugin demonstrating the plugin template structure and capabilities",
+  "description": "A simple sample plugin demonstrating the plugin architecture",
   "version": "1.0.0",
-  "author": "Council of Tsukuyomi",
+  "author": "Plugin Developer",
   "website": "https://github.com/CouncilOfTsukuyomi/PluginTemplate",
   "repositoryUrl": "https://github.com/CouncilOfTsukuyomi/PluginTemplate",
-  "assemblyName": "SamplePlugin.dll",
-  "mainClass": "SamplePlugin.SamplePlugin",
+  "assemblyName": "PluginManager.Plugins.Sample.dll",
+  "mainClass": "PluginManager.Plugins.Sample.SamplePlugin",
   "iconUrl": "",
-  "tags": ["sample", "template", "example"],
+  "tags": ["sample", "template", "example", "development"],
   "category": "Development",
   "featured": false,
   "verified": true,
@@ -19,49 +19,36 @@
     {
       "name": "Microsoft.Extensions.Logging.Abstractions",
       "version": "10.0.0-preview.5.25277.114"
-    },
-    {
-      "name": "HtmlAgilityPack",
-      "version": "1.12.1"
-    },
-    {
-      "name": "Newtonsoft.Json",
-      "version": "13.0.3"
-    },
-    {
-      "name": "MessagePack",
-      "version": "3.1.4"
     }
   ],
   "configuration": {
     "schema": {
       "type": "object",
       "properties": {
-        "ExampleSetting": {
+        "SampleSetting": {
           "type": "string",
           "default": "Hello World",
-          "title": "Example Setting",
+          "title": "Sample Setting",
           "description": "An example configuration setting for the sample plugin"
         },
-        "EnableLogging": {
+        "EnableVerboseLogging": {
           "type": "boolean",
-          "default": true,
-          "title": "Enable Logging",
+          "default": false,
+          "title": "Enable Verbose Logging",
           "description": "Whether to enable detailed logging for this plugin"
         },
-        "MaxItems": {
+        "MaxSampleMods": {
           "type": "integer",
-          "default": 100,
+          "default": 5,
           "minimum": 1,
-          "maximum": 1000,
-          "title": "Maximum Items",
-          "description": "Maximum number of items to process"
+          "maximum": 20,
+          "title": "Maximum Sample Mods",
+          "description": "Maximum number of sample mods to return"
         }
       }
     }
   },
   "permissions": [
-    "network.http",
     "filesystem.cache"
   ],
   "supportedPlatforms": ["windows", "linux", "macos"]
