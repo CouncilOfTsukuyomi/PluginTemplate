@@ -43,7 +43,11 @@ A template for creating plugins using the PluginManager.Core framework. Clone th
 **In `YourPluginName.cs`**, update the metadata section:
 ```csharp 
 #region Plugin Metadata - CUSTOMIZE THESE VALUES
-public override string PluginId => "your-unique-plugin-id"; public override string DisplayName => "Your Plugin Display Name"; public override string Description => "What your plugin does"; public override string Version => "1.0.0"; public override string Author => "Your Name";
+public override string PluginId => "your-unique-plugin-id"; 
+public override string DisplayName => "Your Plugin Display Name"; 
+public override string Description => "What your plugin does"; 
+public override string Version => "1.0.0"; 
+public override string Author => "Your Name";
 #endregion
 ```
 
