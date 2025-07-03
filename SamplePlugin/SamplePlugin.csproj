@@ -21,6 +21,8 @@
         <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
         <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.0-preview.5.25277.114" />
         <PackageReference Include="MessagePack" Version="3.1.4" />
+        <PackageReference Include="Fody" Version="6.8.0" PrivateAssets="all" />
+        <PackageReference Include="Costura.Fody" Version="5.7.0" PrivateAssets="all" />
     </ItemGroup>
 
     <ItemGroup>
@@ -30,6 +32,9 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\PluginManager\PluginManager.Core\PluginManager.Core.csproj" />
+        <ProjectReference Include="..\PluginManager\PluginManager.Core\PluginManager.Core.csproj">
+            <Private>false</Private>
+            <ExcludeAssets>runtime</ExcludeAssets>
+        </ProjectReference>
     </ItemGroup>
 </Project>
