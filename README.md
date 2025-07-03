@@ -25,18 +25,22 @@ A template for creating plugins using the PluginManager.Core framework. Clone th
 1. **Rename the folder** `SamplePlugin` → `YourPluginName`
 
 2. **Update `PluginTemplate.sln`**
-   ```diff
-   - Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SamplePlugin", "SamplePlugin\SamplePlugin.csproj"
-   + Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YourPluginName", "YourPluginName\YourPluginName.csproj"
-   ```
+```diff
+- Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SamplePlugin", "SamplePlugin\SamplePlugin.csproj"
++ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YourPluginName", "YourPluginName\YourPluginName.csproj"
+```
 
 3. **Update the `.csproj` file**
-   ```xml
-   <PropertyGroup>
-       <AssemblyName>YourPluginName</AssemblyName>
-       <RootNamespace>YourPluginName</RootNamespace>
-   </PropertyGroup>
-   ```
+```xml
+<PropertyGroup>
+    <AssemblyName>YourPluginName</AssemblyName>
+    <RootNamespace>YourPluginName</RootNamespace>
+    <AssemblyTitle>Sample Plugin</AssemblyTitle>
+    <AssemblyDescription>Sample Plugin For Atomos</AssemblyDescription>
+    <AssemblyCompany>Council of Tsukuyomi</AssemblyCompany>
+    <AssemblyProduct>PluginManager Sample Plugin</AssemblyProduct>
+</PropertyGroup>
+```
 
 ### 2. Update Plugin Metadata
 
@@ -56,19 +60,24 @@ public override string Author => "Your Name";
 
 **In `plugin-manifest.json`**, update all the fields:
 ```json 
-{ 
-  "pluginId": "your-unique-plugin-id", 
-  "displayName": "Your Plugin Display Name", 
-  "description": "Detailed description of your plugin", 
-  "author": "Your Name", 
-  "website": "[https://your-website.com](https://your-website.com)", 
-  "repositoryUrl": "[https://github.com/yourusername/YourPluginName](https://github.com/yourusername/YourPluginName)", 
-  "assemblyName": "YourPluginName.dll", 
-  "mainClass": "YourPluginName.YourPluginName", 
-  "tags": ["your", "plugin", "tags"], 
-  "category": "YourCategory"
+{
+   "pluginId": "sample-plugin",
+   "displayName": "Sample Plugin",
+   "description": "A simple sample plugin demonstrating the plugin architecture",
+   "version": "1.0.0",
+   "author": "Plugin Developer",
+   "website": "https://github.com/CouncilOfTsukuyomi/PluginTemplate",
+   "repositoryUrl": "https://github.com/CouncilOfTsukuyomi/PluginTemplate",
+   "assemblyName": "SamplePlugin.dll",
+   "mainClass": "SamplePlugin.SamplePlugin",
+   "iconUrl": "",
+   "tags": ["sample", "template", "example", "development"],
+   "category": "Development",
+   "featured": false,
+   "verified": true
 }
 ```
+Featured and Verified don't mean anything currently
 
 ### 4. Update Dependencies
 
@@ -135,19 +144,9 @@ public override string Author => "Your Name";
 
 ### 7. Update GitHub Workflows
 
-**In both workflow files** (`.github/workflows/`), update the packaging paths:
-```yaml
-- name: Package Plugin
-  run: |
-      mkdir -p plugin-package
-      cp SamplePlugin/bin/Release/net9.0/* plugin-package/
-      cd plugin-package
-      zip -r ../SamplePlugin-${{ github.ref_name }}.zip .
-```
-And update the release asset names:
-```yaml 
-asset_name: YourPluginName-${{ github.ref_name }}.zip
-```
+Customise the CI/CD workflows:
+- [**release.yml**](.github/workflows/release.yml) - Handles plugin releases and publishing
+- [**build-and-test.yml**](.github/workflows/build-and-test.yml) - Builds and tests the plugin on pull requests
 
 
 ### 8. Set Up GitHub Repository (This step can be skipped if you want to manually push tags)

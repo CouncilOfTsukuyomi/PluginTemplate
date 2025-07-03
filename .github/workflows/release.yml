@@ -39,9 +39,25 @@ jobs:
 
             - name: Package Plugin
               run: |
+                  # Create plugin directory structure
                   mkdir -p plugin-package
-                  cp SamplePlugin/bin/Release/net9.0/* plugin-package/
+                  
+                  # Publish the plugin with all dependencies
+                  dotnet publish SamplePlugin \
+                  --configuration Release \
+                  --output plugin-package \
+                  --self-contained false \
+                  --no-restore
+                  
+                  # Ensure plugin.json is in the output
+                  if [ ! -f "plugin-package/plugin.json" ]; then
+                  cp SamplePlugin/plugin.json plugin-package/
+                  fi
+                  
+                  # Remove unnecessary files to reduce size
                   cd plugin-package
+                  rm -f *.pdb *.xml *.deps.json *.runtimeconfig.json
+                  
                   zip -r ../SamplePlugin-${{ github.ref_name }}.zip .
 
             - name: Create Release
