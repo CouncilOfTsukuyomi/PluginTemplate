@@ -1,7 +1,7 @@
 {
   "pluginId": "sample-plugin",
   "displayName": "Sample Plugin",
-  "description": "A simple sample plugin demonstrating the plugin architecture",
+  "description": "A simple sample plugin demonstrating enum usage and plugin architecture",
   "version": "1.0.0",
   "author": "Plugin Developer",
   "website": "https://github.com/CouncilOfTsukuyomi/PluginTemplate",
@@ -9,7 +9,7 @@
   "assemblyName": "SamplePlugin.dll",
   "mainClass": "SamplePlugin.SamplePlugin",
   "iconUrl": "",
-  "tags": ["sample", "template", "example", "development"],
+  "tags": ["sample", "template", "example", "development", "enum"],
   "category": "Development",
   "featured": false,
   "verified": true,
@@ -18,6 +18,10 @@
   "dependencies": [
     {
       "name": "Microsoft.Extensions.Logging.Abstractions",
+      "version": "10.0.0-preview.5.25277.114"
+    },
+    {
+      "name": "System.Text.Json",
       "version": "10.0.0-preview.5.25277.114"
     }
   ],
@@ -30,6 +34,34 @@
           "default": "Hello World",
           "title": "Sample Setting",
           "description": "An example configuration setting for the sample plugin"
+        },
+        "ModTypes": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "enum": [1, 2, 3, 4],
+            "enumTitles": ["Gear", "Cosmetic", "UI", "Other"]
+          },
+          "default": [],
+          "title": "Mod Types",
+          "description": "Select which mod types to include (leave empty for all types)",
+          "uniqueItems": true
+        },
+        "SortBy": {
+          "type": "string",
+          "default": "upload_date",
+          "title": "Sort By",
+          "description": "How to sort the sample results",
+          "enum": [
+            "upload_date",
+            "name",
+            "popularity"
+          ],
+          "enumTitles": [
+            "Upload Date",
+            "Name",
+            "Popularity"
+          ]
         },
         "EnableVerboseLogging": {
           "type": "boolean",
